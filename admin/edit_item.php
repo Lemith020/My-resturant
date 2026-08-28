@@ -29,53 +29,79 @@ mysqli_stmt_execute($stmt);
 $item = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Edit Dish</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Dish - Sun & Sea</title>
     <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="admin-nav">
-        <h2>Sun & Sea Restaurant - Admin</h2>
-        <div>
-            <a href="menu_management.php">Back to Menu</a>
-            <a href="logout.php">Logout</a>
-        </div>
-    </div>
+    <header class="admin-header">
+        <div class="logo-text">Sun & Sea Restaurant - Admin</div>
+        <nav class="admin-nav">
+            <a href="menu_management.php" class="nav-link nav-btn"><i class="fa-solid fa-arrow-left"></i> Back to Menu</a>
+            <a href="logout.php" class="nav-link nav-btn logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </nav>
+    </header>
+
     <div class="dashboard-content">
-        <h1>Edit Dish</h1>
-        <form method="POST" class="admin-form">
-            <label>Name</label>
-            <input type="text" name="name" value="<?php echo htmlspecialchars($item['name']); ?>" required>
+        <div class="top-bar">
+            <h1><i class="fa-solid fa-pen-to-square" style="color:#00ff88;"></i> Edit Dish</h1>
+        </div>
 
-            <label>Description</label>
-            <textarea name="description"><?php echo htmlspecialchars($item['description']); ?></textarea>
+        <div class="form-card">
+            <form method="POST" class="admin-form">
+                <div class="form-group">
+                    <label>NAME</label>
+                    <input type="text" name="name" class="form-control" value="<?php echo htmlspecialchars($item['name']); ?>" required>
+                </div>
 
-            <label>Category</label>
-            <select name="category_id">
-                <?php while ($cat = mysqli_fetch_assoc($categories)) { ?>
-                    <option value="<?php echo $cat['category_id']; ?>" <?php echo ($cat['category_id'] == $item['category_id']) ? 'selected' : ''; ?>>
-                        <?php echo htmlspecialchars($cat['category_name']); ?>
-                    </option>
-                <?php } ?>
-            </select>
+                <div class="form-group">
+                    <label>DESCRIPTION</label>
+                    <textarea name="description" class="form-control" rows="3"><?php echo htmlspecialchars($item['description']); ?></textarea>
+                </div>
 
-            <label>Dietary Type</label>
-            <select name="dietary_type">
-                <option value="Vegetarian" <?php echo ($item['dietary_type']=='Vegetarian')?'selected':''; ?>>Vegetarian</option>
-                <option value="Non-Vegetarian" <?php echo ($item['dietary_type']=='Non-Vegetarian')?'selected':''; ?>>Non-Vegetarian</option>
-            </select>
+                <div class="form-group">
+                    <label>CATEGORY</label>
+                    <select name="category_id" class="form-control">
+                        <?php while ($cat = mysqli_fetch_assoc($categories)) { ?>
+                            <option value="<?php echo $cat['category_id']; ?>" <?php echo ($cat['category_id'] == $item['category_id']) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($cat['category_name']); ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
 
-            <label>Price (Rs.)</label>
-            <input type="number" step="0.01" name="price" value="<?php echo $item['price']; ?>" required>
+                <div class="form-group">
+                    <label>DIETARY TYPE</label>
+                    <select name="dietary_type" class="form-control">
+                        <option value="Vegetarian" <?php echo ($item['dietary_type']=='Vegetarian')?'selected':''; ?>>Vegetarian</option>
+                        <option value="Non-Vegetarian" <?php echo ($item['dietary_type']=='Non-Vegetarian')?'selected':''; ?>>Non-Vegetarian</option>
+                    </select>
+                </div>
 
-            <label>Image filename (mock)</label>
-            <input type="text" name="image_url" value="<?php echo htmlspecialchars($item['image_url']); ?>">
+                <div class="form-group">
+                    <label>PRICE (RS.)</label>
+                    <input type="number" step="0.01" name="price" class="form-control" value="<?php echo $item['price']; ?>" required>
+                </div>
 
-            <label><input type="checkbox" name="is_available" <?php echo $item['is_available'] ? 'checked' : ''; ?>> Available</label>
+                <div class="form-group">
+                    <label>IMAGE FILENAME</label>
+                    <input type="text" name="image_url" class="form-control" value="<?php echo htmlspecialchars($item['image_url']); ?>">
+                </div>
 
-            <button type="submit">Update Dish</button>
-        </form>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="is_available" name="is_available" <?php echo $item['is_available'] ? 'checked' : ''; ?>>
+                    <label for="is_available" style="margin-bottom: 0; color: #ffffff; cursor: pointer;">Available for Order</label>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-floppy-disk"></i> Update Dish
+                </button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
